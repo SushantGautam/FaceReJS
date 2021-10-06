@@ -1,0 +1,177 @@
+<video class="input_video" style="display: none;"></video>
+
+
+<script src="https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/dist/face-api.js"></script>
+
+<script async>
+
+
+    /**
+       * Fetch Inject module.
+       *
+       * @module fetchInject
+       * @license Zlib
+       * @param {(USVString[]|Request[])} inputs Resources you wish to fetch.
+       * @param {Promise} [promise] A promise to await before attempting injection.
+       * @throws {Promise<ReferenceError>} Rejects with error when given no arguments.
+       * @throws {Promise<TypeError>} Rejects with error on invalid arguments.
+       * @throws {Promise<Error>} Whatever `fetch` decides to throw.
+       * @throws {SyntaxError} Via DOM upon attempting to parse unexpected tokens.
+       * @returns {Promise<Object[]>} A promise which resolves to an `Array` of
+       *     Objects containing `Response` `Body` properties used by the module.
+       */
+    injectHead = (function (i, n, j, e, c, t, s) { t = n.createElement(j), s = n.getElementsByTagName(j)[0]; t.appendChild(n.createTextNode(e.text)); t.onload = c(e); s ? s.parentNode.insertBefore(t, s) : n.head.appendChild(t) }); // eslint-disable-line
+    fetchInject = function (inputs, promise) {
+        if (!arguments.length) return Promise.reject(new ReferenceError("Failed to execute 'fetchInject': 1 argument required but only 0 present."))
+        if (arguments[0] && arguments[0].constructor !== Array) return Promise.reject(new TypeError("Failed to execute 'fetchInject': argument 1 must be of type 'Array'."))
+        if (arguments[1] && arguments[1].constructor !== Promise) return Promise.reject(new TypeError("Failed to execute 'fetchInject': argument 2 must be of type 'Promise'."))
+
+        const resources = []
+        const deferreds = promise ? [].concat(promise) : []
+        const thenables = []
+
+        inputs.forEach(input => deferreds.push(
+            window.fetch(input).then(res => {
+                return [res.clone().text(), res.blob()]
+            }).then(promises => {
+                return Promise.all(promises).then(resolved => {
+                    resources.push({ text: resolved[0], blob: resolved[1] })
+                })
+            })
+        ))
+
+        return Promise.all(deferreds).then(() => {
+            resources.forEach(resource => {
+                thenables.push({
+                    then: resolve => {
+                        resource.blob.type.includes('text/css')
+                            ? injectHead(window, document, 'style', resource, resolve)
+                            : injectHead(window, document, 'script', resource, resolve)
+                    }
+                })
+            })
+            return Promise.all(thenables)
+        })
+    }
+
+
+
+
+
+    // this is the Camera Input
+    const videoElement = document.getElementsByClassName('input_video')[0];
+
+
+
+    // 
+    loadLibraries = fetchInject([
+        "https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js",
+        // "https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.js",
+        // "https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js",
+        // "https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4/face_detection.js",
+    ])
+
+
+
+
+
+    async function requestExternalImage(imageData) {
+        imageUrl = imageData[1];
+        const res = await fetch(imageUrl)
+        if (!(res.status < 400)) {
+            console.error(res.status + ' : ' + await res.text())
+            throw new Error('failed to fetch image from url: ' + imageUrl)
+        }
+
+        let blob
+        try {
+            blob = await res.blob();
+            return await [imageData[0], await faceapi.bufferToImage(blob)];
+        } catch (e) {
+            console.error('received blob:', blob)
+            console.error('error:', e)
+            throw new Error('failed to load image from url: ' + imageUrl)
+        }
+    }
+
+
+    ImageUrls = {
+        "self": 'https://images.generated.photos/NQv6Dt_7n6IiEPue6OJro2q52quDwWrcfxLobYlT8Oc/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/NDY4Mjg0LmpwZw.jpg',
+        "1": 'https://images.generated.photos/OuQAZkglgbQufjOKgCF3RdTIXMr73RHACuHYXorW6JQ/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/NzA3MjY0LmpwZw.jpg',
+        "2": 'https://images.generated.photos/rEtZIf1Lx1awn9Y9ZZBTzqi2Kx-VMPQRtJx_jExvlzE/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTE4MTU5LmpwZw.jpg',
+        "3": 'https://images.generated.photos/W1-nFy63WDv1T1w64D7X92rMdeVec1n6gfXtqVsoZU0/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/Mzk5NDM1LmpwZw.jpg',
+        // "d": 'hsttps://images.generated.photos/W1-nFy63WDv1T1w64D7X92rMdeVec1n6gfXtqVsoZU0/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/Mzk5NDM1LmpwZw.jpg',
+        // "g": 'https://images.generated.photos/W1-nFy63WDv1T1w64D7X92rMdeVec1n6gfXtqVsoZU0/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92ssM18w/Mzk5NDM1LmpwZw.jpg',
+    }
+
+    //collect descriptors of all in the list
+    ImageDescriptors = null
+    GetImagedescriptor = Promise.allSettled([
+        console.log('FaceRe Model loading. . '),
+        faceapi.nets.tinyFaceDetector.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"),
+        faceapi.nets.faceRecognitionNet.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"),
+        // faceapi.nets.faceExpressionNet.loadFromUri("/static/models"),
+        faceapi.nets.ssdMobilenetv1.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights")
+    ]).then(() => {
+        return Promise.all(Object.entries(ImageUrls).map(async (entry) => {
+            return await requestExternalImage(entry)
+        }))
+    }).then((ImagesBlobs) => {
+        // console.log('Images Blobs: ', ImagesBlobs)
+        // console.log('Images Blobs: ', ImagesBlobs.length)
+
+        return Promise.all(ImagesBlobs.map(async (imageData) => {
+            const detections = await faceapi.detectSingleFace(imageData[1], new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();
+            // console.log('detections: ', detections)
+            // debugger
+            return {
+                imageid: imageData[0],
+                imageData: imageData[1],
+                detections: detections.descriptor
+            }
+        }))
+    }).then((ImgeDescriptors) => {
+        console.log('Image Descriptors: ', ImgeDescriptors)
+        ImageDescriptors = ImgeDescriptors
+        return ImgeDescriptors
+    })
+
+    //when descriptor is ready and all dependecies are loaded 
+    Promise.allSettled([loadLibraries, GetImagedescriptor]).then(() => {
+        //Get Camera and start
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                s = await HandleNewFrame({ image: videoElement });
+                // if (typeof detections !== "undefined") console.log(s)
+            },
+            width: 1280,
+            height: 720
+        });
+
+        camera.start();
+    });
+
+    async function HandleNewFrame(frame) {
+        const detections = await faceapi.detectSingleFace(frame.image, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();
+        if (typeof detections !== "undefined") {
+            distances = ImageDescriptors.map(each => {
+                each["distance"] = faceapi.euclideanDistance(
+                    each.detections,
+                    detections.descriptor
+                )
+
+                return each
+            })
+            console.log(distances)
+
+            return distances
+
+        }
+
+    }
+
+
+
+
+</script>
