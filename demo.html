@@ -1,50 +1,61 @@
-<div style="display: flex; place-content: center; height: 5vh;     text-align: center;">
+<div>
+    <button id="exitFaceRe" style=" position: absolute;
+    background: red;
+    color: white;
+    top: 10px;
+    right: 10px;" onclick="confirm('⚠️ Press OK to confirm you want to skip Face Recognition!')">
+        X
+    </button>
+    <div style="display: flex; place-content: center; height: 5vh;     text-align: center;">
 
-    <span>
-        <span style="    font-weight: 600;
+        <span>
+            <span style="    font-weight: 600;
      font-size: larger;">NSDAI FaceRe </span> <br> Please focus on camera for Face Recognition.
 
-    </span>
-</div>
-
-<div style="display: flex;justify-content: center;text-align: center;height: 90vh;">
-    <div style="height: 80vh;overflow: hidden;border: 1px solid black;align-self: center;object-fit: cover;width: 40%;">
-        <img src="https://i.stack.imgur.com/aFYTl.jpg?s=328&amp;g=1"
-            style="width: 100%; height: 80%; object-fit: cover;">
-        <div style="font-weight: 500; font-size:large; ">
-            <h4>
-                Name: <span class="h4" id="StudentName">Jonghun Kim</span>
-                <br>
-            </h4>
-            <h4 class="h4">ID : <span class="h4" id="RollID">0082020C50123456</span></h4>
-        </div>
+        </span>
     </div>
-    <div style="width: 5%;"></div>
 
-    <div style="width: 40%;-webkit-transform-origin-y: center;height: 80vh;place-self: center;border: 1px solid black;">
-        <div style="position: relative; background-color: rgb(156, 198, 158);">
-            <img id="FaceReFocusOverlay"
-                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNjAwLjAwMDAwMHB0IiBoZWlnaHQ9IjUwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDYwMC4wMDAwMDAgNTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgcG90cmFjZSAxLjE2LCB3cml0dGVuIGJ5IFBldGVyIFNlbGluZ2VyIDIwMDEtMjAxOQo8L21ldGFkYXRhPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCw1MDAuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIgpmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMzIyIDQzMjcgbC0yIC0zODggNDMgMyA0MiAzIDMgMzQzIDIgMzQyIDI5NSAwIDI5NSAwIC0yIDQzIC0xIDQyCi00IC0zNyAtNCAtMzggLTI5MiAtMiAtMjkyIC0zIC0zIC0zNDIgLTIgLTM0MyAtMzUgMCAtMzUgMCAtMyAzODMgLTIgMzgyIC0zCi0zODh6Ii8+CjxwYXRoIGQ9Ik01MDEyIDQ2NzMgbC0yIC00MyAyOTUgMCAyOTUgMCAwIC0zNDUgMCAtMzQ1IDQ1IDAgNDUgMCAtMiAzODggLTMKMzg3IC0yIC0zODIgLTMgLTM4MyAtMzUgMCAtMzUgMCAtMiAzNDMgLTMgMzQyIC0yOTIgMyAtMjkyIDIgLTQgMzggLTQgMzcgLTEKLTQyeiIvPgo8cGF0aCBkPSJNMTUwMCAzNTI1IGMwIC0yMDggMSAtMjE1IDIwIC0yMTUgMTkgMCAyMCA3IDIwIDE5MCBsMCAxOTAgMTY4IDIKYzE2NSAzIDE2NyAzIDE3MCAyNiBsMyAyMiAtMTkwIDAgLTE5MSAwIDAgLTIxNXoiLz4KPHBhdGggZD0iTTQxMjAgMzcxNSBsMCAtMjUgMTcwIDAgMTcwIDAgMCAtMTkwIGMwIC0xODMgMSAtMTkwIDIwIC0xOTAgMTkgMAoyMCA3IDIwIDIxNSBsMCAyMTUgLTE5MCAwIC0xOTAgMCAwIC0yNXoiLz4KPHBhdGggZD0iTTI4NDMgMjkzMSBjLTE1MiAtNTUgLTI2OSAtMjAxIC0yOTIgLTM2NCAtMjcgLTE5MyA3MiAtMzg0IDI0NCAtNDY3Cjg5IC00MyAxMDUgLTQ2IDEwNSAtMjAgMCAxMSAtOCAyMyAtMTcgMjYgLTExMyAzNSAtMjA2IDExNiAtMjU2IDIyMSAtMzAgNjQKLTMyIDc1IC0zMiAxNzggMCAxMDQgMiAxMTQgMzMgMTc3IDUwIDEwMSAxMzIgMTc1IDI0NSAyMTcgMTcgNyAyNyAxOCAyNyAzMSAwCjExIC0xIDIwIC0yIDIwIC0yIC0xIC0yNiAtOSAtNTUgLTE5eiIvPgo8cGF0aCBkPSJNMzEwMCAyOTI5IGMwIC0xMiAxMCAtMjMgMjggLTMwIDExMSAtNDIgMTk0IC0xMTYgMjQ0IC0yMTcgMzEgLTYzCjMzIC03MiAzMyAtMTc3IDAgLTEwMyAtMiAtMTE0IC0zMiAtMTc4IC01MCAtMTA1IC0xNDMgLTE4NiAtMjU1IC0yMjEgLTEwIC0zCi0xOCAtMTUgLTE4IC0yNiAwIC0yNiAxNiAtMjMgMTA1IDIwIDIyMiAxMDcgMzExIDM3OSAyMDAgNjA2IC01MyAxMDggLTE2NAoyMDIgLTI3NSAyMzQgLTI2IDcgLTMwIDYgLTMwIC0xMXoiLz4KPHBhdGggZD0iTTE1MDAgMTQ4NSBsMCAtMjE1IDE5MCAwIGMxODMgMCAxOTAgMSAxOTAgMjAgMCAxOSAtOCAyMCAtMTY3IDIyCmwtMTY4IDMgLTMgMTkzIGMtMiAxODQgLTMgMTkyIC0yMiAxOTIgLTE5IDAgLTIwIC03IC0yMCAtMjE1eiIvPgo8cGF0aCBkPSJNNDQ1OCAxNTA4IGwtMyAtMTkzIC0xNjcgLTMgYy0xNjAgLTIgLTE2OCAtMyAtMTY4IC0yMiAwIC0xOSA3IC0yMAoxOTAgLTIwIGwxOTAgMCAwIDIxNSBjMCAyMDggLTEgMjE1IC0yMCAyMTUgLTE5IDAgLTIwIC04IC0yMiAtMTkyeiIvPgo8cGF0aCBkPSJNMzIwIDY4MSBsMCAtMzkxIDM0MCAwIDM0MCAwIDAgNDUgMCA0NSAtMjk1IDAgLTI5NSAwIC0yIDM0MyAtMyAzNDIKLTQyIDMgLTQzIDMgMCAtMzkweiBtODAgMzQgbDAgLTM0NSAyOTUgMCAyOTUgMCAwIC0zNSAwIC0zNSAtMzMwIDAgLTMzMCAwIDAKMzgwIDAgMzgwIDM1IDAgMzUgMCAwIC0zNDV6Ii8+CjxwYXRoIGQ9Ik01NjA3IDEwNjMgYy00IC0zIC03IC0xNTkgLTcgLTM0NSBsMCAtMzM4IC0yOTUgMCAtMjk1IDAgMCAtNDUgMAotNDUgMzQwIDAgMzQwIDAgMCAzOTAgMCAzOTAgLTM4IDAgYy0yMSAwIC00MiAtMyAtNDUgLTd6IG03MyAtMzgzIGwwIC0zODAKLTMzMCAwIC0zMzAgMCAwIDM1IDAgMzUgMjk1IDAgMjk1IDAgMCAzNDUgMCAzNDUgMzUgMCAzNSAwIDAgLTM4MHoiLz4KPC9nPgo8L3N2Zz4K"
-                style="position: absolute; width: -webkit-fill-available; height: 100%;">
-
-            <video class="input_video" style="width: 100%; place-self: center; object-fit: cover; height: 80%;"
-                src=""></video>
-        </div>
-
-        <div style="font-weight: 500; font-size: large; width:100% ">
-            <br>
-            <button id="RetakeButton" style="width: 45%;    height: 4em; display: none;" onclick="retake()">🔁<br>
-                Retake </button>
-            <button id="SubmitButton" style="width: 45%;     height: 4em;display: none;"> ✔️ <br> Submit </button>
-            <div style="    padding-top: .6em;">Match : <span class="font-weight: 500; font-size:large; "
-                    id="matchPercentage"> Loading ... .
-                </span>
+    <div style="display: flex;justify-content: center;text-align: center;height: 90vh;">
+        <div
+            style="height: 80vh;overflow: hidden;border: 1px solid black;align-self: center;object-fit: cover;width: 40%;">
+            <img src="https://i.stack.imgur.com/aFYTl.jpg?s=328&amp;g=1"
+                style="width: 100%; height: 80%; object-fit: cover;">
+            <div style="font-weight: 500; font-size:large; ">
+                <h4>
+                    Name: <span class="h4" id="StudentName">Jonghun Kim</span>
+                    <br>
                 </h4>
-
+                <h4 class="h4">ID : <span class="h4" id="RollID">0082020C50123456</span></h4>
             </div>
         </div>
-    </div>
+        <div style="width: 5%;"></div>
 
+        <div
+            style="width: 40%;-webkit-transform-origin-y: center;height: 80vh;place-self: center;border: 1px solid black;">
+            <div style="position: relative; background-color: rgb(156, 198, 158);">
+                <img id="FaceReFocusOverlay"
+                    src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNjAwLjAwMDAwMHB0IiBoZWlnaHQ9IjUwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDYwMC4wMDAwMDAgNTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgo8bWV0YWRhdGE+CkNyZWF0ZWQgYnkgcG90cmFjZSAxLjE2LCB3cml0dGVuIGJ5IFBldGVyIFNlbGluZ2VyIDIwMDEtMjAxOQo8L21ldGFkYXRhPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCw1MDAuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIgpmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMzIyIDQzMjcgbC0yIC0zODggNDMgMyA0MiAzIDMgMzQzIDIgMzQyIDI5NSAwIDI5NSAwIC0yIDQzIC0xIDQyCi00IC0zNyAtNCAtMzggLTI5MiAtMiAtMjkyIC0zIC0zIC0zNDIgLTIgLTM0MyAtMzUgMCAtMzUgMCAtMyAzODMgLTIgMzgyIC0zCi0zODh6Ii8+CjxwYXRoIGQ9Ik01MDEyIDQ2NzMgbC0yIC00MyAyOTUgMCAyOTUgMCAwIC0zNDUgMCAtMzQ1IDQ1IDAgNDUgMCAtMiAzODggLTMKMzg3IC0yIC0zODIgLTMgLTM4MyAtMzUgMCAtMzUgMCAtMiAzNDMgLTMgMzQyIC0yOTIgMyAtMjkyIDIgLTQgMzggLTQgMzcgLTEKLTQyeiIvPgo8cGF0aCBkPSJNMTUwMCAzNTI1IGMwIC0yMDggMSAtMjE1IDIwIC0yMTUgMTkgMCAyMCA3IDIwIDE5MCBsMCAxOTAgMTY4IDIKYzE2NSAzIDE2NyAzIDE3MCAyNiBsMyAyMiAtMTkwIDAgLTE5MSAwIDAgLTIxNXoiLz4KPHBhdGggZD0iTTQxMjAgMzcxNSBsMCAtMjUgMTcwIDAgMTcwIDAgMCAtMTkwIGMwIC0xODMgMSAtMTkwIDIwIC0xOTAgMTkgMAoyMCA3IDIwIDIxNSBsMCAyMTUgLTE5MCAwIC0xOTAgMCAwIC0yNXoiLz4KPHBhdGggZD0iTTI4NDMgMjkzMSBjLTE1MiAtNTUgLTI2OSAtMjAxIC0yOTIgLTM2NCAtMjcgLTE5MyA3MiAtMzg0IDI0NCAtNDY3Cjg5IC00MyAxMDUgLTQ2IDEwNSAtMjAgMCAxMSAtOCAyMyAtMTcgMjYgLTExMyAzNSAtMjA2IDExNiAtMjU2IDIyMSAtMzAgNjQKLTMyIDc1IC0zMiAxNzggMCAxMDQgMiAxMTQgMzMgMTc3IDUwIDEwMSAxMzIgMTc1IDI0NSAyMTcgMTcgNyAyNyAxOCAyNyAzMSAwCjExIC0xIDIwIC0yIDIwIC0yIC0xIC0yNiAtOSAtNTUgLTE5eiIvPgo8cGF0aCBkPSJNMzEwMCAyOTI5IGMwIC0xMiAxMCAtMjMgMjggLTMwIDExMSAtNDIgMTk0IC0xMTYgMjQ0IC0yMTcgMzEgLTYzCjMzIC03MiAzMyAtMTc3IDAgLTEwMyAtMiAtMTE0IC0zMiAtMTc4IC01MCAtMTA1IC0xNDMgLTE4NiAtMjU1IC0yMjEgLTEwIC0zCi0xOCAtMTUgLTE4IC0yNiAwIC0yNiAxNiAtMjMgMTA1IDIwIDIyMiAxMDcgMzExIDM3OSAyMDAgNjA2IC01MyAxMDggLTE2NAoyMDIgLTI3NSAyMzQgLTI2IDcgLTMwIDYgLTMwIC0xMXoiLz4KPHBhdGggZD0iTTE1MDAgMTQ4NSBsMCAtMjE1IDE5MCAwIGMxODMgMCAxOTAgMSAxOTAgMjAgMCAxOSAtOCAyMCAtMTY3IDIyCmwtMTY4IDMgLTMgMTkzIGMtMiAxODQgLTMgMTkyIC0yMiAxOTIgLTE5IDAgLTIwIC03IC0yMCAtMjE1eiIvPgo8cGF0aCBkPSJNNDQ1OCAxNTA4IGwtMyAtMTkzIC0xNjcgLTMgYy0xNjAgLTIgLTE2OCAtMyAtMTY4IC0yMiAwIC0xOSA3IC0yMAoxOTAgLTIwIGwxOTAgMCAwIDIxNSBjMCAyMDggLTEgMjE1IC0yMCAyMTUgLTE5IDAgLTIwIC04IC0yMiAtMTkyeiIvPgo8cGF0aCBkPSJNMzIwIDY4MSBsMCAtMzkxIDM0MCAwIDM0MCAwIDAgNDUgMCA0NSAtMjk1IDAgLTI5NSAwIC0yIDM0MyAtMyAzNDIKLTQyIDMgLTQzIDMgMCAtMzkweiBtODAgMzQgbDAgLTM0NSAyOTUgMCAyOTUgMCAwIC0zNSAwIC0zNSAtMzMwIDAgLTMzMCAwIDAKMzgwIDAgMzgwIDM1IDAgMzUgMCAwIC0zNDV6Ii8+CjxwYXRoIGQ9Ik01NjA3IDEwNjMgYy00IC0zIC03IC0xNTkgLTcgLTM0NSBsMCAtMzM4IC0yOTUgMCAtMjk1IDAgMCAtNDUgMAotNDUgMzQwIDAgMzQwIDAgMCAzOTAgMCAzOTAgLTM4IDAgYy0yMSAwIC00MiAtMyAtNDUgLTd6IG03MyAtMzgzIGwwIC0zODAKLTMzMCAwIC0zMzAgMCAwIDM1IDAgMzUgMjk1IDAgMjk1IDAgMCAzNDUgMCAzNDUgMzUgMCAzNSAwIDAgLTM4MHoiLz4KPC9nPgo8L3N2Zz4K"
+                    style="position: absolute; width: -webkit-fill-available; height: 100%;">
+
+                <video class="input_video" style="width: 100%; place-self: center; object-fit: cover; height: 80%;"
+                    src=""></video>
+            </div>
+
+            <div style="font-weight: 500; font-size: large; width:100% ">
+                <br>
+                <button id="RetakeButton" style="width: 45%;    height: 4em; display: none;" onclick="retake()">🔁<br>
+                    Retake </button>
+                <button id="SubmitButton" style="width: 45%;     height: 4em;display: none;"> ✔️ <br> Submit </button>
+                <div style="    padding-top: .6em;">Match : <span class="font-weight: 500; font-size:large; "
+                        id="matchPercentage"> Loading ... .
+                    </span>
+                    </h4>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 
@@ -298,6 +309,7 @@
         document.getElementsByClassName("input_video")[0].pause()
         document.getElementById("RetakeButton").style.display = ''
         document.getElementById("SubmitButton").style.display = ''
+        document.getElementById("exitFaceRe").style.display = 'None'
 
         ImageURI = captureVideoFrame(document.getElementsByClassName("input_video")[0], "jpeg", 0.95).dataUri
         // debugger
