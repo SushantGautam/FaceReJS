@@ -285,6 +285,7 @@
 
         inverted = 100 - minimumAverage * 100 + 15 //15 is added threshold
         if (inverted >= 100) inverted = 99 //if max out due to added threshold set to 99
+        if (inverted <= 0) inverted = 0 //if min out due to any problem set to 0 
         document.getElementById('matchPercentage').innerHTML = Math.ceil(inverted) + "%"
 
 
