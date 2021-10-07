@@ -299,12 +299,17 @@
         document.getElementById("RetakeButton").style.display = ''
         document.getElementById("SubmitButton").style.display = ''
 
-
-        ImageURI = captureVideoFrame(document.getElementsByClassName("input_video")[0], "jpeg", 0.5).dataUri
-
+        ImageURI = captureVideoFrame(document.getElementsByClassName("input_video")[0], "jpeg", 0.95).dataUri
+        debugger
         output = {
-            "Score": bestResult,
-            "ImageURI": ImageURI
+            "AvgScore": bestResult[0],
+            "LatestImageURI": ImageURI,
+            "BestMatch": {
+                id: bestResult[1].imageid,
+                imageUrl: bestResult[1].imageUrl,
+                rawScore: bestResult[1].distance
+            }, "rawDetectionResults": detectionResults
+
         }
         console.log(output)
         return output
