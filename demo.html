@@ -1,9 +1,10 @@
-<div>
+<div id="FaceReContainer" style="  width: 95%;   background: white; display: none;
+position: absolute;">
     <button id="exitFaceRe" style=" position: absolute;
     background: red;
     color: white;
     top: 10px;
-    right: 10px;" onclick="confirm('⚠️ Press OK to confirm you want to skip Face Recognition!')">
+    right: 10px;" onclick="exitFaceReHandler()">
         X
     </button>
     <div style="display: flex; place-content: center; height: 5vh;     text-align: center;">
@@ -59,6 +60,13 @@
 </div>
 
 
+
+
+
+
+<h2> FaceRe Demo </h2>
+<button onclick="startFaceReFunc()">Click me</button>
+<h4>Check console for outputs. </h4>
 
 <!-- <script src="https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/dist/face-api.js"></script> -->
 
@@ -168,6 +176,10 @@
     //collect descriptors of all in the list
     ImageDescriptors = null;
     FaceRecamera = null;
+    successCallback = function (rs) { console.log(rs) };
+    failureCallback = function (rs) { console.log(rs) };
+
+
     GetImagedescriptor = Promise.allSettled([loadLibraries]).then(() => ([console.log("FaceRe Model loading. . "),
     faceapi.nets.tinyFaceDetector.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"),
     faceapi.nets.faceLandmark68Net.loadFromUri("https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights"),
@@ -204,27 +216,37 @@
             return ImageDescriptors;
         });
 
-    lastUpdateTime = new Date().getTime();
-    interval = 100;
     //when descriptor is ready and all dependecies are loaded
-    Promise.allSettled([GetImagedescriptor]).then(() => {
-        //Get Camera and start
-        FaceRecamera = new Camera(videoElement, {
-            onFrame: async () => {
-                if (((new Date().getTime()) - lastUpdateTime > interval)) {
-                    result = await HandleNewFrame({ image: videoElement });
-                    if (typeof result !== "undefined") HandleResults(result);
-                    lastUpdateTime = new Date().getTime();
-                }
-                // alert('hi')
 
-            },
-            width: 1280,
-            height: 720,
-        });
+    class FaceRe {
+        constructor(successCallback, failureCallback, interval = 100) {
+            successCallback = successCallback;
+            failureCallback = failureCallback;
+            this.interval = interval;
+            this.lastUpdateTime = new Date().getTime();
 
-        FaceRecamera.start();
-    });
+            document.getElementById("FaceReContainer").style.display = ''
+            retake(true)
+            Promise.allSettled([GetImagedescriptor]).then(() => {
+                //Get Camera and start
+                FaceRecamera = new Camera(videoElement, {
+                    onFrame: async () => {
+                        if (((new Date().getTime()) - this.lastUpdateTime > this.interval)) {
+                            this.result = await HandleNewFrame({ image: videoElement });
+                            if (typeof this.result !== "undefined") HandleResults(this.result);
+                            this.lastUpdateTime = new Date().getTime();
+                        }
+                        // alert('hi')
+
+                    },
+                    width: 1280,
+                    height: 720,
+                });
+
+                FaceRecamera.start();
+            });
+        }
+    }
 
     detectionResults = null;
     async function HandleNewFrame(frame) {
@@ -263,7 +285,7 @@
             if (detectionResults.length === framesToRecord) {
                 // console.log(framesToRecord, " frames recorded")
                 //handle predictions
-                FrameCollectionCompleted(result)
+                preparesuccessCallback(FrameCollectionCompleted(result))
             }
         }
 
@@ -320,19 +342,46 @@
                 id: bestResult[1].imageid,
                 imageUrl: bestResult[1].imageUrl,
                 rawScore: bestResult[1].distance
-            }, "rawDetectionResults": detectionResults
+            },
+            "rawDetectionResults": detectionResults
 
         }
-        console.log(output)
+        // console.log(output)
         return output
     }
 
-    function retake() {
-        document.getElementsByClassName("input_video")[0].play()
+    function retake(first = false) {
+        if (!first) document.getElementsByClassName("input_video")[0].play()
+        document.getElementById("RetakeButton").style.display = 'none'
+        document.getElementById("SubmitButton").style.display = 'none'
         detectionResults = null
 
     }
 
+    function exitFaceReHandler() {
+        confirm('⚠️ Press OK to confirm you want to skip Face Recognition!')
+        preparefailureCallback("Model Closed")
+    }
 
+    function preparesuccessCallback(results) {
+        document.getElementById("SubmitButton").onclick = function () {
+            successCallback(results)
+            preparefailureCallback(null, emulate = true)
+        };
+
+    }
+
+    function preparefailureCallback(results, emulate = false) {
+        if (!emulate) failureCallback(results)
+        document.getElementById("FaceReContainer").style.display = 'none'
+        document.getElementsByClassName("input_video")[0].pause()
+    }
+
+    function startFaceReFunc() {
+        let facere = new FaceRe(
+            successCallback = function (rs) { console.log("success ", rs) },
+            failureCallback = function (rs) { console.log("failed ", rs) },
+        );
+    }
 
 </script>
